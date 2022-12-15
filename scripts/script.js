@@ -1,10 +1,8 @@
 var canvas = document.getElementById("canvas");
 var ctx = canvas.getContext("2d");
 
-canvas.width = "800";
+canvas.width = "900";
 canvas.height = canvas.width / 1.7;
-
-document.body.style.marginTop = canvas.width / (canvas.width / 200) + "px";
 
 var radius = canvas.width / 2;
 ctx.translate(radius, radius);
