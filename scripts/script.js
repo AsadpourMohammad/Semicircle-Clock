@@ -3,7 +3,7 @@ var ctx = canvas.getContext("2d");
 var radius = canvas.height / 2;
 ctx.translate(radius, radius);
 radius *= 0.9;
-setBackgroundColor("black");
+setBackgroundColor("white");
 
 function setBackgroundColor(color) {
   ctx.globalCompositeOperation = "destination-under";
@@ -24,6 +24,8 @@ function drawClock() {
   drawBorder(ctx, radius);
   //   drawCenter(ctx, radius);
   drawNumbers(ctx, radius);
+  drawRec(ctx);
+  writeDate(ctx);
   drawTime(ctx, radius);
 }
 
@@ -37,10 +39,19 @@ function drawCircle(ctx, radius) {
 function drawBorder(ctx, radius) {
   ctx.beginPath();
   ctx.arc(0, 0, radius, Math.PI - 0.0266, 0.0266);
-  ctx.strokeStyle = "#ccc";
+  ctx.strokeStyle = "black";
   ctx.lineWidth = radius * 0.05;
   ctx.lineCap = "square";
   ctx.stroke();
+  
+  ctx.beginPath();
+  ctx.fillStyle = "black";
+  ctx.fillRect(
+    -canvas.width / 2 + canvas.width / 25.5,
+    canvas.width / 41,
+    canvas.width - canvas.width / 12.7,
+    10
+  );
 }
 
 function drawCenter(ctx, radius) {
@@ -60,7 +71,7 @@ function drawNumbers(ctx, radius) {
   ctx.textBaseline = "middle";
   ctx.textAlign = "center";
   ctx.fillStyle = "black";
-  for (num = 0; num <= 24; num += 2) {
+  for (num = 0; num <= 24; num += 3) {
     ang = ((num - 12) * Math.PI) / 24;
     ctx.rotate(ang);
     ctx.translate(0, -radius * 0.8);
@@ -72,19 +83,21 @@ function drawNumbers(ctx, radius) {
   }
 
   // Hour Dots
+  var dots = [1,2,4,5,7,8,10,11,13,14,16,17,19,20,22,23];
+
   ctx.beginPath();
   ctx.font = radius * 0.1 + "px arial";
   ctx.textBaseline = "middle";
   ctx.textAlign = "center";
-  ctx.fillStyle = "green";
-  for (num = 1; num <= 24; num += 2) {
-    ang = ((num - 12) * Math.PI) / 24;
+  ctx.fillStyle = "black";
+  for (num = 0; num < dots.length; num++) {
+    ang = ((dots[num] - 12) * Math.PI) / 24;
     ctx.rotate(ang);
-    ctx.translate(0, -radius * 0.85);
+    ctx.translate(0, -radius * 0.8);
     ctx.rotate(-ang);
-    ctx.fillText("", 0, 0);
+    ctx.fillText("·", 0, 0);
     ctx.rotate(ang);
-    ctx.translate(0, radius * 0.85);
+    ctx.translate(0, radius * 0.8);
     ctx.rotate(-ang);
   }
 
@@ -106,8 +119,66 @@ function drawNumbers(ctx, radius) {
   }
 }
 
+function drawRec(ctx) {
+  ctx.beginPath();
+  ctx.lineWidth = "7";
+  ctx.strokeStyle = "black";
+  ctx.rect(40, -50, 75, 45);
+  ctx.stroke();
+  ctx.fillStyle = "white";
+  ctx.fill();
+  ctx.beginPath();
+  ctx.lineWidth = "7";
+  ctx.strokeStyle = "black";
+  ctx.rect(121.5, -50, 50, 45);
+  ctx.stroke();
+  ctx.fillStyle = "black";
+  ctx.fill();
+}
+
+function writeDate(ctx) {
+  const months = [
+    "JAN",
+    "FEB",
+    "MAR",
+    "APR",
+    "MAY",
+    "JUN",
+    "JUL",
+    "AUG",
+    "SEP",
+    "OCT",
+    "NOV",
+    "DEC",
+  ];
+  var now = new Date();
+
+  var day = now.getDay();
+  var month = now.getMonth();
+
+  // Day
+  ctx.beginPath();
+  ctx.font = "40px Times";
+  ctx.fillStyle = "white";
+  ctx.fillText(
+    day.toLocaleString("en-US", {
+      minimumIntegerDigits: 2,
+      useGrouping: false,
+    }),
+    145,
+    -24
+  );
+
+  // Month
+  ctx.beginPath();
+  ctx.font = "35px Times";
+  ctx.fillStyle = "black";
+  ctx.fillText(months[month].toString(), 78, -24);
+}
+
 function drawTime(ctx, radius) {
   var now = new Date();
+
   var hour = now.getHours();
   var minute = now.getMinutes();
   var second = now.getSeconds();
@@ -121,7 +192,7 @@ function drawTime(ctx, radius) {
   drawHand(ctx, minute, radius * 0.85, radius * 0.025, "black");
   // second
   second = ((second - 30) * Math.PI) / 60;
-//   console.log(second);
+  //   console.log(second);
   drawHand(ctx, second, radius * 0.94, radius * 0.01, "red");
 }
 
