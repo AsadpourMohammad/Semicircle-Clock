@@ -65,13 +65,13 @@ function drawNumbers(ctx, radius) {
   ctx.fillStyle = "black";
   for (num = 0; num <= 24; num += 3) {
     ang = ((num - 12) * Math.PI) / 24;
-    ctx.rotate(ang);
+    ctx.rotate(-ang);
     ctx.translate(0, -radius * 0.8);
-    ctx.rotate(-ang);
-    ctx.fillText(num.toString(), 0, 0);
     ctx.rotate(ang);
-    ctx.translate(0, radius * 0.8);
+    ctx.fillText(num.toString(), 0, 0);
     ctx.rotate(-ang);
+    ctx.translate(0, radius * 0.8);
+    ctx.rotate(ang);
   }
 
   // Hour Dots
@@ -84,13 +84,13 @@ function drawNumbers(ctx, radius) {
   ctx.fillStyle = "black";
   for (num = 0; num < dots.length; num++) {
     ang = ((dots[num] - 12) * Math.PI) / 24;
-    ctx.rotate(ang);
+    ctx.rotate(-ang);
     ctx.translate(0, -radius * 0.8);
-    ctx.rotate(-ang);
-    ctx.fillText("·", 0, 0);
     ctx.rotate(ang);
-    ctx.translate(0, radius * 0.8);
+    ctx.fillText("·", 0, 0);
     ctx.rotate(-ang);
+    ctx.translate(0, radius * 0.8);
+    ctx.rotate(ang);
   }
 
   // Minute Numbers
@@ -101,13 +101,13 @@ function drawNumbers(ctx, radius) {
   ctx.fillStyle = "grey";
   for (num = 0; num <= 60; num += 2) {
     ang = ((num - 30) * Math.PI) / 60;
-    ctx.rotate(ang);
+    ctx.rotate(-ang);
     ctx.translate(0, -radius * 0.91);
-    ctx.rotate(-ang);
-    ctx.fillText(num.toString(), 0, 0);
     ctx.rotate(ang);
-    ctx.translate(0, radius * 0.91);
+    ctx.fillText(num.toString(), 0, 0);
     ctx.rotate(-ang);
+    ctx.translate(0, radius * 0.91);
+    ctx.rotate(ang);
   }
 }
 
@@ -202,18 +202,22 @@ function drawTime(ctx, radius) {
     (minute * Math.PI) / (20 * 60) +
     (second * Math.PI) / (360 * 60);
 
+  hour = -hour;
+
   drawHand(ctx, hour, radius * 0.6, radius * 0.025, "black");
   drawHand(ctx, hour, -radius * 0.03, radius * 0.025, "black");
 
   // Minute
   minute = ((minute - 30) * Math.PI) / 60;
+  minute = -minute;
   drawHand(ctx, minute, radius * 0.85, radius * 0.025, "black");
   drawHand(ctx, minute, -radius * 0.03, radius * 0.025, "black");
 
   // second
   second =
-    ((second - 30) * Math.PI) / 60 + 
-    (milliseconds * Math.PI) / (960 * 60);
+    ((second - 30) * Math.PI) / 60 + (milliseconds * Math.PI) / (960 * 60);
+
+  second = -second;
   drawHand(ctx, second, radius * 0.94, radius * 0.01, "red");
   drawHand(ctx, second, -radius * 0.03, radius * 0.01, "red");
 }
