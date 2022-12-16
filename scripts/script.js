@@ -164,6 +164,8 @@ function writeDate(ctx) {
   // Day
   ctx.beginPath();
   ctx.font = canvas.width / 20 + "px Times";
+  ctx.textBaseline = "middle";
+  ctx.textAlign = "center";
   ctx.fillStyle = "white";
   ctx.fillText(
     day.toLocaleString("en-US", {
@@ -177,6 +179,8 @@ function writeDate(ctx) {
   // Month
   ctx.beginPath();
   ctx.font = canvas.width / 20 + "px Times";
+  ctx.textBaseline = "middle";
+  ctx.textAlign = "center";
   ctx.fillStyle = "black";
   ctx.fillText(
     months[month].toString(),
