@@ -192,33 +192,43 @@ function writeDate(ctx) {
 function drawTime(ctx, radius) {
   var now = new Date();
 
-  var hour = now.getHours();
-  var minute = now.getMinutes();
-  var second = now.getSeconds();
-  var milliseconds = now.getMilliseconds();
-
   // Hour
-  hour =
-    ((hour - 12) * Math.PI) / 24 +
-    (minute * Math.PI) / (30 * 60) +
-    (second * Math.PI) / (1440 * 60);
+  var hour = -(
+    ((now.getHours() - 12) * Math.PI) / 24 +
+    (now.getMinutes() * Math.PI) / (30 * 60) +
+    (now.getSeconds() * Math.PI) / (1440 * 60)
+  );
 
-  hour = -hour;
+  if (((Math.round(hour * 100000) / 10000)) == -15.4502) {
+    hour += (now.getMilliseconds() * Math.PI) / 1000;
+  }
 
   drawHand(ctx, hour, radius * 0.6, radius * 0.025, "black");
   drawHand(ctx, hour, -radius * 0.03, radius * 0.025, "black");
 
   // Minute
-  minute = ((minute - 30) * Math.PI) / 60 + (second * Math.PI) / (60 * 60);
-  minute = -minute;
-  drawHand(ctx, minute, radius * 0.85, radius * 0.025, "black");
-  drawHand(ctx, minute, -radius * 0.03, radius * 0.025, "black");
+  var minute = -(
+    ((now.getMinutes() - 30) * Math.PI) / 60 +
+    (now.getSeconds() * Math.PI) / (60 * 60)
+  );  
+
+  if (((Math.floor(minute * 10000) / 10000)) == -1.57) {
+    minute += (now.getMilliseconds() * Math.PI) / 1000;
+  }
+
+  drawHand(ctx, minute, radius * 0.85, radius * 0.02, "black");
+  drawHand(ctx, minute, -radius * 0.03, radius * 0.02, "black");
 
   // second
-  second =
-    ((second - 30) * Math.PI) / 60 + (milliseconds * Math.PI) / (960 * 60);
+  var second = -(
+    ((now.getSeconds() - 30) * Math.PI) / 60 +
+    (now.getMilliseconds() * Math.PI) / (960 * 60)
+  );
 
-  second = -second;
+  if (Math.round(now.getSeconds()) == 59) {
+    second += (now.getMilliseconds() * Math.PI) / 1000;
+  }
+  
   drawHand(ctx, second, radius * 0.94, radius * 0.01, "red");
   drawHand(ctx, second, -radius * 0.03, radius * 0.01, "red");
 }
