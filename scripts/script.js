@@ -14,11 +14,11 @@ setInterval(drawClock, 0);
 function drawClock() {
   drawCircle(ctx, radius);
   drawBorder(ctx, radius);
-  //   drawCenter(ctx, radius);
   drawNumbers(ctx, radius);
   drawRec(ctx);
   writeDate(ctx);
   drawTime(ctx, radius);
+  drawCenter(ctx, radius);
 }
 
 function drawCircle(ctx, radius) {
@@ -40,7 +40,7 @@ function drawBorder(ctx, radius) {
   ctx.fillStyle = "black";
   ctx.fillRect(
     -canvas.width / 2 + canvas.width / 25.5,
-    canvas.width / 41,
+    canvas.width / 42,
     canvas.width - canvas.width / 12.7,
     radius * 0.05
   );
@@ -48,8 +48,8 @@ function drawBorder(ctx, radius) {
 
 function drawCenter(ctx, radius) {
   ctx.beginPath();
-  ctx.arc(0, 0, radius * 0.1, 0, 2 * Math.PI);
-  ctx.fillStyle = "green";
+  ctx.fillStyle = "white";
+  ctx.fillRect(-3.5, -3.5, 7, 7);
   ctx.fill();
 }
 
@@ -158,7 +158,7 @@ function writeDate(ctx) {
   ];
   var now = new Date();
 
-  var day = now.getDay();
+  var day = now.getDate();
   var month = now.getMonth();
 
   // Day
@@ -172,7 +172,7 @@ function writeDate(ctx) {
       minimumIntegerDigits: 2,
       useGrouping: false,
     }),
-    canvas.width / 4.35,
+    canvas.width / 4.365,
     -canvas.width / 29
   );
 
@@ -196,11 +196,12 @@ function drawTime(ctx, radius) {
   var minute = now.getMinutes();
   var second = now.getSeconds();
   var milliseconds = now.getMilliseconds();
+
   // Hour
   hour =
     ((hour - 12) * Math.PI) / 24 +
-    (minute * Math.PI) / (20 * 60) +
-    (second * Math.PI) / (360 * 60);
+    (minute * Math.PI) / (30 * 60) +
+    (second * Math.PI) / (1440 * 60);
 
   hour = -hour;
 
@@ -208,7 +209,7 @@ function drawTime(ctx, radius) {
   drawHand(ctx, hour, -radius * 0.03, radius * 0.025, "black");
 
   // Minute
-  minute = ((minute - 30) * Math.PI) / 60;
+  minute = ((minute - 30) * Math.PI) / 60 + (second * Math.PI) / (60 * 60);
   minute = -minute;
   drawHand(ctx, minute, radius * 0.85, radius * 0.025, "black");
   drawHand(ctx, minute, -radius * 0.03, radius * 0.025, "black");
