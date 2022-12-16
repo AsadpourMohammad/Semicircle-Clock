@@ -195,22 +195,27 @@ function drawTime(ctx, radius) {
   var hour = now.getHours();
   var minute = now.getMinutes();
   var second = now.getSeconds();
-
+  var milliseconds = now.getMilliseconds();
   // Hour
-  hour = ((hour - 12) * Math.PI) / 24;
+  hour =
+    ((hour - 12) * Math.PI) / 24 +
+    (minute * Math.PI) / (20 * 60) +
+    (second * Math.PI) / (360 * 60);
+
   drawHand(ctx, hour, radius * 0.6, radius * 0.025, "black");
-  drawHand(ctx, hour, - radius * 0.03, radius * 0.025, "black");
+  drawHand(ctx, hour, -radius * 0.03, radius * 0.025, "black");
 
   // Minute
   minute = ((minute - 30) * Math.PI) / 60;
   drawHand(ctx, minute, radius * 0.85, radius * 0.025, "black");
-  drawHand(ctx, minute, - radius * 0.03, radius * 0.025, "black");
+  drawHand(ctx, minute, -radius * 0.03, radius * 0.025, "black");
 
   // second
-  second = ((second - 30) * Math.PI) / 60;
-  //   console.log(second);
+  second =
+    ((second - 30) * Math.PI) / 60 + 
+    (milliseconds * Math.PI) / (960 * 60);
   drawHand(ctx, second, radius * 0.94, radius * 0.01, "red");
-  drawHand(ctx, second, - radius * 0.03, radius * 0.01, "red");
+  drawHand(ctx, second, -radius * 0.03, radius * 0.01, "red");
 }
 
 function drawHand(ctx, pos, length, width, color) {
