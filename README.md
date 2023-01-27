@@ -5,3 +5,5 @@ A weird and unorthodox version of a Clock!
 
 Wait a minute for the seconds hand to reach the end of the semicircle to see something fun!\
 Or wait until 23:59:59 to see something even more fun!
+
+This project was made for the Web Programming course of the fall semester of 1401 in Babol Noshirvani University of Technology (BNUT or NIT).
